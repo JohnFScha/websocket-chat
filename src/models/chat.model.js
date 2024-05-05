@@ -1,10 +1,14 @@
 import { Schema, model } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
-const MessageSchema = new Schema({ message: String });
+//* Definir el esquema del documento
+const MessageSchema = new Schema({ 
+  message: String, 
+  createdAt: Date
+});
 
+//* Añadir plugins a mongoose
 MessageSchema.plugin(mongoosePaginate);
 
-const MessageModel = model("Message", MessageSchema);
-
-export default MessageModel;
+//* Instancia desde la que se realizan las consultas a la DB
+export const MessageModel = model("Message", MessageSchema);

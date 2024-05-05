@@ -13,7 +13,8 @@ import { engine } from "express-handlebars";
 import { __dirname } from "./path.js";
 import { Server } from "socket.io";
 import { connect } from "mongoose";
-import MessageModel from "./models/chat.model.js";
+import { MessageModel } from "./models/chat.model.js";
+import censorMessage from "./helpers/censorMessage.js";
 
 // * Routes
 import indexRouter from "./routes/index.js";
@@ -71,8 +72,9 @@ io.on("connection", (socket) => {
   // Aca se implementa la logica necesaria para por ejenplo
   // guardar el mensaje en la DB, etc.
   socket.on("chat message", async (msg) => {
-    await MessageModel.create({message: msg})
-    io.emit("chat message", msg);
+    const censoredMsg = censorMessage(msg)
+    await MessageModel.create({message: msg, createdAt: Date.now()})
+    io.emit("chat message", censoredMsg);
   });
 });
 
