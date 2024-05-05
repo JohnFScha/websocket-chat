@@ -1,5 +1,6 @@
 import { Router } from 'express';
-var indexRouter = Router();
+
+const indexRouter = Router();
 
 /* GET home page. */
 indexRouter.get('/', function(req, res, next) {
