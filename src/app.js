@@ -59,6 +59,8 @@ app.use(function (err, req, res, next) {
   res.render("error", { err: err.message });
 });
 
+//* Socket connection. El metodo 'on' solicita abrir el canal, lo que se conoce como handshake. Del lado de usuario, la instancia de socket.io recibe el mensaje y acepta abrir el canal.
+
 io.on("connection", (socket) => {
   console.log("a user connected");
 
@@ -69,8 +71,7 @@ io.on("connection", (socket) => {
   });
 
   //* Recieve a msg
-  // Aca se implementa la logica necesaria para por ejenplo
-  // guardar el mensaje en la DB, etc.
+  // Aca se implementa la logica necesaria para por ejenplo guardar el mensaje en la DB, etc.
   socket.on("chat message", async (msg) => {
     const censoredMsg = censorMessage(msg)
     await MessageModel.create({message: msg, createdAt: Date.now()})
